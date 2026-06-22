@@ -3,7 +3,6 @@ import type { Recipe } from "./types.ts"
 import RecipeModal from "./RecipeModal.tsx";
 import SearchForm from "./SearchForm.tsx";
 
-
 function App() {
 
    const [recipesList, setRecipesList] = useState<Recipe[]>([])
@@ -68,9 +67,9 @@ function App() {
       }, [selectedRec])
 
   return (
-    <div className="bg-lime-100">
-    <header>
-      <h1>Recipe</h1>
+    <>
+    <header className="text-center py-6">
+      <h1 className="text-4xl font-bold text-lime-800">Favorite Recipe</h1>
     </header>
       <main>
         <div>
@@ -81,26 +80,30 @@ function App() {
         { selectedRec ? <RecipeModal recipeData={selectedRec} onClose={() => setSelectedRec(null)}/> : null}
       </div> 
 
-      <div>{ recipesList.map((rec) => 
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 m-5">{ recipesList.map((rec) => 
       (
-        <div key={rec.idMeal}>
-          <button onClick={() => setSelectedRec(rec)}>
-            <h2>
+        <div className="mx-5 p-10" key={rec.idMeal}>
+          <button className="bg-lime-900/40 rounded-xl p-5" 
+            onClick={() => setSelectedRec(rec)}>
+            <h2 className="text-lime-50 text-2xl font-extrabold mb-5">
             {rec.strMeal}
             </h2>
-            <img src={rec.strMealThumb} alt="" />
-            <div>          
-            {rec.strArea}
-            </div>
-            <div>
-            {rec.strCategory}
+            <img className="rounded-4xl" 
+            src={rec.strMealThumb} alt="" />
+            <div className="flex justify-between my-2 mx-5 text-lime-50 text-ellipsis font-bold">
+              <div>          
+                {rec.strArea}
+              </div>
+              <div>
+                {rec.strCategory}
+              </div>
             </div>
           </button>
         </div>
       ))}</div>
 
       </main>
-    </div>
+    </>
   )
 }
 

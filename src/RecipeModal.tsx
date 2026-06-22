@@ -24,20 +24,20 @@ function RecipeModal({ recipeData, onClose }:RecipeModalProps ) {
     )
 
     return (
-        <div className="fixed my-10 mx-5 inset-0 bg-olive-700/80 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
                 <button className="bg-olive/80 py-1 px-1.5 rounded-lg text-white/90 absolute top-0 right-0"
                 onClick={onClose}>
                     Close x
                 </button>
             
-            <div className="bg-lime-100 rounded-lg px-6 max-w-md w-full max-h-[80vh] overflow-y-auto">
-                <h2 className="text-2xl">
+            <div className="bg-lime-900/50 px-6 max-w-md w-full max-h-[80vh] overflow-y-auto">
+                <h2 className="text-2xl text-center mt-5">
                     {recipeData.strMeal}
                 </h2>
                 <img src={recipeData.strMealThumb} alt="" 
-                    className="rounded-lg w-full h-auto my-10"
+                    className="rounded-lg w-full h-auto mt-10"
                 />
-                <div className="flex justify-between">
+                <div className="mt-5 flex justify-between">
                 <h3>          
                     {recipeData.strArea}
                 </h3>
