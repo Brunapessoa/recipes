@@ -1,122 +1,86 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { useState, useEffect } from "react";
+import type { Recipe } from "./types.ts"
+import RecipeModal from "./RecipeModal.tsx";
+
 
 function App() {
-  const [count, setCount] = useState(0)
+
+   const [recipesList, setRecipesList] = useState<Recipe[]>([])
+   const [error, setError] = useState(null)
+
+   const [selectedRec, setSelectedRec] = useState<Recipe | null>(null)
+
+   useEffect(() => {
+
+    async function fetchRecipes() {
+
+      try {
+        setError(null)
+        const response = await fetch(import.meta.env.VITE_API_URL) // espera a resposta chegar
+        const returnRecipe = await response.json() // espera o coro ser convertido para JSON
+
+        console.log(returnRecipe);
+        
+
+
+        if(returnRecipe.meals === null) {
+          throw new Error ('Recipe not found')
+        }
+
+        setRecipesList(returnRecipe.meals)
+
+      } catch(error) {
+        setError(error.message)
+      }
+      
+    }
+
+    fetchRecipes()
+
+   }, [])
+
 
   return (
     <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
+    <header>
+      <h1>Recipe</h1>
+    </header>
+      <main>
         <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
+          <form action="">
+            <label htmlFor="">Recipe: </label>
+            <input type="text" name="" id="" placeholder="Type the kind of recipe you want"/>
+            <button type="submit">Search</button>
+          </form>
         </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+  
+      <div id="modalRecipe"> 
+        { selectedRec ? <RecipeModal recipeData={selectedRec} onClose={() => setSelectedRec(null)}/> : null}
+      </div> 
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
+      <div>{ recipesList.map((rec) => 
+      (
+        <div key={rec.idMeal}>
+          <button onClick={() => setSelectedRec(rec)}>
+            <h2>
+            {rec.strMeal}
+            </h2>
+            <img src={rec.strMealThumb} alt="" />
+            <div>          
+            {rec.strArea}
+            </div>
+            <div>
+            {rec.strCategory}
+            </div>
+          </button>
         </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+      ))}</div>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
+      </main>
     </>
   )
 }
 
 export default App
+
+
