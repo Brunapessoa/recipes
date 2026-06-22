@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import type { Recipe } from "./types.ts"
 import RecipeModal from "./RecipeModal.tsx";
+import SearchForm from "./SearchForm.tsx";
 
 
 function App() {
@@ -21,8 +22,6 @@ function App() {
 
         console.log(returnRecipe);
         
-
-
         if(returnRecipe.meals === null) {
           throw new Error ('Recipe not found')
         }
@@ -40,6 +39,26 @@ function App() {
    }, [])
 
 
+  async function handleSearch(term:string) {
+  
+    try {
+      setError(null)
+        
+      const responseTerm = await fetch(`${import.meta.env.VITE_API_URL}${term}`)
+      const returnTerm = await responseTerm.json()
+
+        if(returnTerm.meals === null) {
+          throw new Error ('Recipe not found with this term')
+        }
+        setRecipesList(returnTerm.meals)
+      
+      } catch(error) {
+        setError(error.message)
+      }
+
+      }  
+
+
   return (
     <>
     <header>
@@ -47,11 +66,7 @@ function App() {
     </header>
       <main>
         <div>
-          <form action="">
-            <label htmlFor="">Recipe: </label>
-            <input type="text" name="" id="" placeholder="Type the kind of recipe you want"/>
-            <button type="submit">Search</button>
-          </form>
+          <SearchForm submitTerm={handleSearch}/>
         </div>
   
       <div id="modalRecipe"> 
