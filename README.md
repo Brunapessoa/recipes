@@ -1,73 +1,31 @@
-# React + TypeScript + Vite
+# Recipes
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicação de busca e visualização de receitas, construída para consolidar fundamentos de React e TypeScript.
 
-Currently, two official plugins are available:
+🔗 **Demo:** [link após o deploy]
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Funcionalidades
 
-## React Compiler
+- Busca de receitas por nome via API pública
+- Listagem em cards com nome e imagem
+- Modal de detalhes com ingredientes, medidas e modo de preparo
+- Tipagem TypeScript da resposta da API
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Stack
 
-## Expanding the ESLint configuration
+- [Vite](https://vite.dev/)
+- [React](https://react.dev/)
+- TypeScript
+- [TheMealDB API](https://www.themealdb.com/api.php)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Decisões técnicas
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- Estado gerenciado com `useState`/`useEffect` (sem Redux), por ser um projeto de escopo pequeno
+- Detalhe da receita exibido em modal (em vez de rota própria), para preservar o contexto da busca/lista
+- Sem backend próprio: consumo direto da API pública, sem necessidade de autenticação
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Possíveis melhorias futuras
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- Paginação / scroll infinito
+- Loading state visual durante a busca
+- Testes automatizados

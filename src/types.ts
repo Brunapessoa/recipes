@@ -47,4 +47,4 @@ type Recipe = {
     strInstructions: string
 }
 
-export default Recipe
+export {}

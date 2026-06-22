@@ -58,9 +58,17 @@ function App() {
 
       }  
 
+      useEffect(() => {
+        
+        if(selectedRec) {
+          document.body.style.overflow = "hidden"
+        } else {
+          document.body.style.overflow = ""
+        }
+      }, [selectedRec])
 
   return (
-    <>
+    <div className="bg-lime-100">
     <header>
       <h1>Recipe</h1>
     </header>
@@ -92,7 +100,7 @@ function App() {
       ))}</div>
 
       </main>
-    </>
+    </div>
   )
 }
 
