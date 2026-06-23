@@ -32,7 +32,7 @@ function RecipeModal({ recipeData, onClose }:RecipeModalProps ) {
                 onClick={onClose}>
                     Close x
                 </button>
-                <div className="bg-olive-50/70 px-6 lg:px-15 lg:pb-5 max-h-[80vh] overflow-y-auto relative">
+                <div className="bg-olive-50/80 px-6 lg:px-15 lg:pb-5 max-h-[80vh] overflow-y-auto relative">
                 <h2 className="text-lime-900 text-5xl lg:text-7xl font-[Dancing_Script] text-center mt-5 lg:mt-10 font-bold">
                     {recipeData.strMeal}
                 </h2>
