@@ -1,10 +1,9 @@
 import type { Recipe } from "./types.ts"
 
 type RecipeModalProps = {
-    recipeData: Recipe | null,
+    recipeData: Recipe,
     onClose: () => void      
 }
-
 
 
 function RecipeModal({ recipeData, onClose }:RecipeModalProps ) {
@@ -23,15 +22,18 @@ function RecipeModal({ recipeData, onClose }:RecipeModalProps ) {
         (item.measure !== null && item.measure !== "") && (item.ingredient !== null && item.ingredient !== "")
     )
 
+    const stepInstruc = recipeData.strInstructions.split(/\r\n|\r|\n/)
+
     return (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
-                <button className="bg-olive/80 py-1 px-1.5 rounded-lg text-white/90 absolute top-0 right-0"
+
+            <div className="relative max-w-md lg:max-w-3xl w-full max-h[80vh]">                
+                <button className="bg-olive/80 py-1 px-1.5 rounded-lg text-white/90 absolute -top-8 right-1"
                 onClick={onClose}>
                     Close x
                 </button>
-            
-            <div className="bg-lime-900/50 px-6 max-w-md w-full max-h-[80vh] overflow-y-auto">
-                <h2 className="text-2xl text-center mt-5">
+                <div className="bg-olive-50/70 px-6 lg:px-15 lg:pb-5 max-h-[80vh] overflow-y-auto relative">
+                <h2 className="text-lime-900 text-5xl lg:text-7xl font-[Dancing_Script] text-center mt-5 lg:mt-10 font-bold">
                     {recipeData.strMeal}
                 </h2>
                 <img src={recipeData.strMealThumb} alt="" 
@@ -45,7 +47,7 @@ function RecipeModal({ recipeData, onClose }:RecipeModalProps ) {
                     {recipeData.strCategory}
                 </h3>
                 </div>
-                <div className="my-5">
+                <div className="bg-olive-50/40 p-2 my-5 rounded-sm text-justify">
                     <ul>
                         {validData.map((item) => <li key={item.id}> 
                         {item.measure} - {item.ingredient}
@@ -53,11 +55,12 @@ function RecipeModal({ recipeData, onClose }:RecipeModalProps ) {
                     </ul>
                 </div>
                 <div className="my-5">
-                    <p className="text-justify">
-                    {recipeData.strInstructions}
+                    <p className="bg-olive-50/40 p-2 rounded-sm text-justify">
+                    {stepInstruc.map((step:string) => <p key={step}>{step}</p>)}
                     </p>
                 </div>
           </div>
+            </div>            
         </div>
     )
 }

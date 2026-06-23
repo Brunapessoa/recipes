@@ -1,4 +1,4 @@
-type Recipe = {
+export type Recipe = {
     idMeal: string,
     strMeal: string,
     strCategory: string,
@@ -45,6 +45,6 @@ type Recipe = {
     strIngredient19: string | null,
     strIngredient20: string | null,
     strInstructions: string
+} & {
+    [key: string]: string | null
 }
-
-export {}

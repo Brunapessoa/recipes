@@ -6,7 +6,7 @@ import SearchForm from "./SearchForm.tsx";
 function App() {
 
    const [recipesList, setRecipesList] = useState<Recipe[]>([])
-   const [error, setError] = useState(null)
+   const [error, setError] = useState<string | null>(null)
 
    const [selectedRec, setSelectedRec] = useState<Recipe | null>(null)
 
@@ -27,8 +27,10 @@ function App() {
 
         setRecipesList(returnRecipe.meals)
 
-      } catch(error) {
-        setError(error.message)
+      } catch(error: unknown) {
+        if(error instanceof Error){
+          setError(error.message)
+        }
       }
       
     }
@@ -51,10 +53,11 @@ function App() {
         }
         setRecipesList(returnTerm.meals)
       
-      } catch(error) {
-        setError(error.message)
+      } catch(error: unknown) {
+        if(error instanceof Error){
+          setError(error.message)
+        }
       }
-
       }  
 
       useEffect(() => {
@@ -68,13 +71,16 @@ function App() {
 
   return (
     <>
-    <header className="text-center py-6">
-      <h1 className="text-4xl font-bold text-lime-800">Favorite Recipe</h1>
+    <header className="text-center my-5 py-15 lg:py-20">
+      <h1 className="text-7xl lg:text-9xl text-lime-800 font-[Dancing_Script] font-bold shadow-black text-shadow-lg">Favorite Recipe</h1>
     </header>
       <main>
         <div>
           <SearchForm submitTerm={handleSearch}/>
         </div>
+      <div>
+        {error && <p className="my-5 py-2 text-center text-lg rounded-2xl bg-olive-50/70 w-90 m-auto text-red-600">{error}</p>}  
+      </div>    
   
       <div id="modalRecipe"> 
         { selectedRec ? <RecipeModal recipeData={selectedRec} onClose={() => setSelectedRec(null)}/> : null}
@@ -82,15 +88,15 @@ function App() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 m-5">{ recipesList.map((rec) => 
       (
-        <div className="mx-5 p-10" key={rec.idMeal}>
-          <button className="bg-lime-900/40 rounded-xl p-5" 
+        <div className="p-10 max-w-sm mx-auto" key={rec.idMeal}>
+          <button className="bg-lime-900/50 rounded-xl p-5" 
             onClick={() => setSelectedRec(rec)}>
-            <h2 className="text-lime-50 text-2xl font-extrabold mb-5">
+            <h2 className="text-lime-50 text-2xl font-extrabold mb-5 shadow-black text-shadow-lg">
             {rec.strMeal}
             </h2>
             <img className="rounded-4xl" 
             src={rec.strMealThumb} alt="" />
-            <div className="flex justify-between my-2 mx-5 text-lime-50 text-ellipsis font-bold">
+            <div className="flex justify-between my-2 mx-5 text-lime-50 font-bold shadow-black text-shadow-lg">
               <div>          
                 {rec.strArea}
               </div>
@@ -103,6 +109,9 @@ function App() {
       ))}</div>
 
       </main>
+      <footer className="text-center text-lime-50 bg-lime-900/50 py-1">
+        Bruna Pessoa - Software Developer
+      </footer>
     </>
   )
 }
