@@ -18,7 +18,7 @@ function SearchForm({ submitTerm }: SearchFormProps) {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
             />
-            <button className="bg-lime-800/60 text-white px-3 lg:px-8 py-1 rounded-full" type="submit">Search</button>
+            <button className="bg-lime-800/80 text-white px-3 lg:px-8 py-1 rounded-full" type="submit">Search</button>
         </form>
     )
 }

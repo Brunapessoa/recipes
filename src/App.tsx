@@ -49,7 +49,7 @@ function App() {
       const returnTerm = await responseTerm.json()
 
         if(returnTerm.meals === null) {
-          throw new Error ('Recipe not found with this term')
+          throw new Error ('No recipes found for this term')
         }
         setRecipesList(returnTerm.meals)
       
@@ -72,14 +72,14 @@ function App() {
   return (
     <>
     <header className="text-center my-5 py-15 lg:py-20">
-      <h1 className="text-7xl lg:text-9xl text-lime-800 font-[Dancing_Script] font-bold shadow-black text-shadow-lg">Favorite Recipe</h1>
+      <h1 className="text-7xl lg:text-9xl text-lime-800 font-[Dancing_Script] font-bold shadow-black text-shadow-lg">Favorite Recipes</h1>
     </header>
       <main>
         <div>
           <SearchForm submitTerm={handleSearch}/>
         </div>
       <div>
-        {error && <p className="my-5 py-2 text-center text-lg rounded-2xl bg-olive-50/70 w-90 m-auto text-red-600">{error}</p>}  
+        {error && <p className="my-5 py-2 text-center text-lg rounded-2xl bg-olive-50/80 w-90 m-auto text-red-600">{error}</p>}  
       </div>    
   
       <div id="modalRecipe"> 
